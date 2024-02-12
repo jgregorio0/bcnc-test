@@ -1,4 +1,4 @@
-package com.bcnc.java.developer.test.jgregoriotest.infrastructure.adapters.config;
+package com.bcnc.java.developer.test.jgregoriotest.infrastructure.adapters.spring.config;
 
 import com.bcnc.java.developer.test.jgregoriotest.application.album.ports.output.AlbumPersistenceOutputPort;
 import com.bcnc.java.developer.test.jgregoriotest.application.album.ports.output.AlbumRestOutputPort;

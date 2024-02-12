@@ -1,4 +1,4 @@
-package com.bcnc.java.developer.test.jgregoriotest.infrastructure.adapters.config;
+package com.bcnc.java.developer.test.jgregoriotest.infrastructure.adapters.spring.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

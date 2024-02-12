@@ -59,6 +59,6 @@ public class AlbumRestInputAdapter {
     public ResponseEntity<Collection<Album>> getInternalAlbums() {
         /// get albums from DB
         Map<Long, Album> albums = getInternalAlbumsUserCase.getInternalAlbums();
-        return ResponseEntity.ok(albums.values());
+        return ResponseEntity.ok(albums.values());// TODO JG use pagination
     }
 }

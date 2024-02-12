@@ -127,10 +127,12 @@ La estructura de datos elegida para manipular los objetos de tipo Photo es un co
 
 ## Infraestructure Layer
 
-### External APIs
+### APIs
 Las APIs externas de Album y Photo se consumen usando RestTemplate y mapeando el resultado en Map<Long, Album> y Set<Photo> respectivamente.
 
-Al consumir la API photos se devuelve Set para evitar duplicados que podrian generarse en un List. 
+Al consumir la API photos se devuelve Set para evitar duplicados que podrian generarse en un List.
+
+ 
 
 ### Data Layer
 Se usa hibernate para la capa de persistencia //TODO JG justificar
@@ -139,11 +141,15 @@ AlbumEntity y PhotoEntity son entidades. AlbumEntity contiene una relacion @OneT
 
 La base de datos H2 se define en el fichero de configuración application.properties.
 
+### Manage exception
+Se usa AdviceExceptionHandler para controlar las excepciones globales 
+
 # Patterns
 DDD: se usa en conjunto con la arquitectura hexagonal para poner el acento en el dominio del negocio y en su modelo como herramienta de comunicación entre negocio y tecnología
 // TODO ejemplo
 Patron Builder: se usa el patron Builder para la creacion de objetos Album y Photo. // TODO justificar
 // TODO ejemplo
+Patrón AOP (Aspect Oriented Programming) para el control de excepciones.
 
 # Tests
 Domain layer is tested in AlbumServiceTest where unit tests are performed.
@@ -152,6 +158,17 @@ Domain layer is tested in AlbumServiceTest where unit tests are performed.
 Infrastructure layer is tested in AlbumPersistenceOutputAdapterTest where integration tests are performed.
 // TODO show results
 
+
+curl -XPOST -H "Content-type: application/json" 'http://localhost:8080/api/v1/albums'
+
+curl -XGET -H "Content-type: application/json" 'http://localhost:8080/api/v1/external/albums'
+
+curl -XGET -H "Content-type: application/json" 'http://localhost:8080/api/v1/internal/albums'
+
+Internal errorjgregorio@jgregorio-Aspire-5742:~/projects/jgregorio-test$
+
+// TODO El consumo de las APIs externas Albums y Photos deberia hacerse de manera asincrona en vez de secuencial
+// TODO Se deberia paginar las respuestas para evitar tiempos de respuesta excesivos
 // TODO Continuous Integration and Deployment (CI/CD):
 // TODO Logging
 // TODO Uso de las herramientas que proporciona Github o similares para la gestión del código (utilizar nomenclatura estándar de commits, ramas, etc):

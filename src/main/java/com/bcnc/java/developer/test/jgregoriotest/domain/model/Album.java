@@ -15,6 +15,7 @@ public class Album {
     private Long userId;
     private Long id;
     private String title;
+    @Builder.Default
     private List<Photo> photos = new ArrayList<>();
 
     @Override
