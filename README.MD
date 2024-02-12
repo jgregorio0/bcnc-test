@@ -44,6 +44,8 @@ Se incluye MapStruct para el mapeo entre objetos.
 
 Se usa RestTemplate para el consumo de APIs externas.
 
+Se usa JaCoCo en la cobertura de pruebas para garantizar que el código se pruebe adecuadamente y para mantener una alta calidad del software.
+
 # Architecture
 Se va a seguir una arquitectura API REST basada en el protocolo HTTP. El diseño de la APIs REST se justifica por ser una arquitectura robusta que permite:
 - el desacoplamiento entre cliente y servidor 
@@ -153,11 +155,11 @@ Patrón AOP (Aspect Oriented Programming) para el control de excepciones.
 
 # Tests
 Domain layer is tested in AlbumServiceTest where unit tests are performed.
-// TODO show results
 
 Infrastructure layer is tested in AlbumPersistenceOutputAdapterTest where integration tests are performed.
-// TODO show results
 
+## Test coverage
+Test coverage results available: [https://ibb.co/KVr1hx6](https://ibb.co/KVr1hx6)
 
 curl -XPOST -H "Content-type: application/json" 'http://localhost:8080/api/v1/albums'
 
