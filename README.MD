@@ -1,4 +1,4 @@
-# BCNC JAVA DEVELOPER TEST
+# BCNC Java Developer Test
 This is a test for BCNC for the interview of Java Developer position done by Jesus Gregorio Perez.
 
 # Description
@@ -176,3 +176,4 @@ Internal errorjgregorio@jgregorio-Aspire-5742:~/projects/jgregorio-test$
 // TODO Uso de las herramientas que proporciona Github o similares para la gestión del código (utilizar nomenclatura estándar de commits, ramas, etc):
 // TODO Uso de controllerAdvice y gestión de excepciones:
 // TODO Uso de jacoco u otra herramienta para monitorizar la cobertura de código de test:
+// TODO JG log error

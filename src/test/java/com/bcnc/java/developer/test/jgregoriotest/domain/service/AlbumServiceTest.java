@@ -1,10 +1,11 @@
 package com.bcnc.java.developer.test.jgregoriotest.domain.service;
 
-import com.bcnc.java.developer.test.jgregoriotest.application.album.ports.output.AlbumPersistenceOutputPort;
-import com.bcnc.java.developer.test.jgregoriotest.application.album.ports.output.AlbumRestOutputPort;
-import com.bcnc.java.developer.test.jgregoriotest.application.photo.ports.output.PhotoRestOutputPort;
-import com.bcnc.java.developer.test.jgregoriotest.domain.model.Album;
-import com.bcnc.java.developer.test.jgregoriotest.domain.model.Photo;
+import com.bcnc.java.developer.test.jgregoriotest.album.application.ports.output.GetAlbumsPersistenceOutputPort;
+import com.bcnc.java.developer.test.jgregoriotest.album.application.ports.output.GetAlbumsRestOutputPort;
+import com.bcnc.java.developer.test.jgregoriotest.album.application.ports.output.SaveAlbumPersistenceOutputPort;
+import com.bcnc.java.developer.test.jgregoriotest.album.domain.model.Album;
+import com.bcnc.java.developer.test.jgregoriotest.album.domain.service.AlbumService;
+import com.bcnc.java.developer.test.jgregoriotest.photo.domain.model.Photo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -27,9 +28,11 @@ import static org.mockito.Mockito.*;
 class AlbumServiceTest {
     private AlbumService albumService;
     @Mock
-    private AlbumPersistenceOutputPort albumPersistenceOutputPort;
+    private SaveAlbumPersistenceOutputPort saveAlbumPersistenceOutputPort;
     @Mock
-    private AlbumRestOutputPort albumRestOutputPort;
+    private GetAlbumsPersistenceOutputPort getAlbumsPersistenceOutputPort;
+    @Mock
+    private GetAlbumsRestOutputPort getAlbumsRestOutputPort;
     @Mock
     private Map<Long, Album> albumsMap;
     @Mock
@@ -41,7 +44,7 @@ class AlbumServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         this.albumService = new AlbumService(
-                albumPersistenceOutputPort, albumRestOutputPort);
+                saveAlbumPersistenceOutputPort, getAlbumsPersistenceOutputPort, getAlbumsRestOutputPort);
     }
 
     @Test()

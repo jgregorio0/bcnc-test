@@ -1,6 +1,8 @@
 package com.bcnc.java.developer.test.jgregoriotest.infrastructure.adapters.album.persistence.output;
 
-import com.bcnc.java.developer.test.jgregoriotest.infrastructure.adapters.photo.persistence.output.PhotoEntity;
+import com.bcnc.java.developer.test.jgregoriotest.album.infrastructure.album.adapters.persistence.output.AlbumEntity;
+import com.bcnc.java.developer.test.jgregoriotest.album.infrastructure.album.adapters.persistence.output.AlbumRepository;
+import com.bcnc.java.developer.test.jgregoriotest.photo.infrastructure.adapters.output.persistence.PhotoEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
