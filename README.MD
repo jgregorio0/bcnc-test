@@ -1,15 +1,11 @@
 # BCNC Java Developer Test
-This is a test for BCNC for the interview of Java Developer position done by Jesus Gregorio Perez.
+This is a test for BCNC as applicant for the Java Developer position performed by Jesus Gregorio Perez.
 
 # Description
-It is an SpringBoot microservice 
-that expose 3 endpoints
-//TODO fill info 
-1. ejecute un algoritmophotos que enriquezca unos datos obtenidos a través de un API (2 endpoints), para posteriormente guardarlos en una base de
-datos en memoria H2.
-2. ejecute un algoritmo que enriquezca unos datos obtenidos a través de un API (2 endpoints) sin posibilidad de utilizar base de datos y los
-devuelva en la petición.
-3. GET de la base de datos en memoria H2
+This project is a Spring Boot application that implement 3 endpoints:
+1. POST /api/v1/albums executes an algorithm that enhances data obtained through an API (2 endpoints: Albums and Photos), subsequently saving them in an in-memory H2 database.
+2. GET /api/v1/external/albums executes an algorithm that enhances data obtained through an API (2 endpoints: Albums and Photos) and return albums.
+3. GET /api/v1/internal/albums return albums stored in memory H2 database.
 
 # Requirements
 For building and running the application you need:
@@ -17,53 +13,62 @@ For building and running the application you need:
 - JDK 21
 
 # Running the application locally
-
-There are several ways to run a Spring Boot application on your local machine. One way is to execute the main method in the de.codecentric.springbootsample.Application class from your IDE.
-
-Alternatively you can use the Spring Boot Maven plugin like so:
-
+Running the application using Spring Boot Maven plugin:
+```
 mvn spring-boot:run
+```
 
-# Deploying the application to Docker
-// TODO
+Test endpoint 1:
+```
+curl -XPOST -H "Content-type: application/json" 'http://localhost:8080/api/v1/albums'
+```
+
+Test endpoint 2:
+```
+curl -XGET -H "Content-type: application/json" 'http://localhost:8080/api/v1/external/albums'
+```
+
+Test endpoint 3:
+```
+curl -XGET -H "Content-type: application/json" 'http://localhost:8080/api/v1/internal/albums'
+```
 
 # Technologies
-This project has been generated using Spring Initializr. 
+This project employs Java 21, Spring Boot 3.2.2, and Maven 3. 
 
-It uses Java 21, Spring Boot 3.2.2 and Maven 3.
+While OpenJDK 21.0.2 is used for development, other distributions might be considered for larger projects. 
 
-Se usa OpenJDK 21.0.2 para el desarrollo, sin embargo para un proyecto de mayor embergadura se podrian considerar otras distribuciones. 
+Lombok is utilized for automatic code generation via annotations, enhancing code readability. 
 
-Se utiliza Lombok para auto generar codigo mediante anotaciones y facilitar la lectura del codigo.
+Spring Web is included for controller development and endpoint mapping.
 
-Se incluye Spring Web para el desarrollo de controladores y mapeo de endpoints.
+Spring Data JPA is used for the persistence layer. 
 
-Se incluye Spring Data JPA para el desarrollo de la capa de persistencia.
+MapStruct is integrated for object mapping.
 
-Se incluye MapStruct para el mapeo entre objetos.
+RestTemplate is employed for external API consumption. 
 
-Se usa RestTemplate para el consumo de APIs externas.
-
-Se usa JaCoCo en la cobertura de pruebas para garantizar que el código se pruebe adecuadamente y para mantener una alta calidad del software.
+JaCoCo is used for test coverage to ensure thorough testing and maintain high software quality.
 
 # Architecture
-Se va a seguir una arquitectura API REST basada en el protocolo HTTP. El diseño de la APIs REST se justifica por ser una arquitectura robusta que permite:
-- el desacoplamiento entre cliente y servidor 
-- la escalabilidad al ser stateless
-- favorece la simplicidad y el mantenimiento por seguir los estandares web 
-- eficiente permitiendo el cacheado 
-- flexible en el formato de los datos 
-- facilita la interoperabilidad al ser compatibles con una amplia variedad de plataformas y tecnologías
-- seguras mediante el uso de HTTPS, CORS o metodos de autenticacion.
+The choosen architecture is a Spring Boot application implementing a REST API following Domain-Driven Design (DDD) and the hexagonal pattern. The main components and layers involved are:
+- Domain Layer: Contains the business logic and models. The services [AlbumService.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Falbum%2Fdomain%2Fservice%2FAlbumService.java) and [PhotoService.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Fphoto%2Fdomain%2Fservice%2FPhotoService.java) defines the core business rules and is independent of any specific technology.
+- Application Layer: Orchestrates the flow of data in and out the domain objects through ports. It acts as a bridge between the domain and the infrastructure layers.
+- Infrastructure Layer: Implements the interfaces defined by the application layer to interact with external systems through adapters. This includes API rest and persistence management.
+
+By following this structure:
+- the application becomes loosely coupled and highly cohesive which makes it easier to change individual parts without affecting others
+- ensures that the core business logic remains independent of any external influences
 
 # Design
-Voy a diseñar una APIs REST basada en Java, usando el framework Spring Boot y que exponga los endpoints solicitados.
+I will design a REST API based on Java, using the Spring Boot framework to expose the requested endpoints.
 
-No se va a considerar la implementacion de:
-- seguridad mediante el paquete Spring Security por ser un test, sin embargo, en un proyecto real seria imprescindible para exponer estos endpoints a internet.
-- // TODO documentacion openapi?
-- cache para mejorar el rendimiento, que igualmente seria muy recomendable en un proyecto real.
-- paginacion al devolver recursos para mejorar el rendimiento
+Key aspects of the implementation will not be considered for this project:
+- Security measures using Spring Security, although crucial for real-world internet-exposed endpoints, are omitted as this is a test scenario.
+- OpenAPI documentation which is recommended for proper API documentation.
+- Caching and Pagination mechanisms to enhance performance, which is highly advisable in production environments when data length increase.
+- Develop Dockerfile to deploy isolated development environment and make easier reproducibility.
+- Logging for Debugging and Troubleshooting.
 
 ## Overview
 El uso del lenguaje Java para el desarrollo, ademas de por razones obvias relacionadas con el puesto, esta justificado por:
@@ -86,94 +91,124 @@ Para el manejo de datos sera usado el formato JSON en las peticiones y respuesta
 - existen multiples librerias que facilitan el manejo de estructuras en JSON
 - las APIs de albums y photos que vamos a consumir usan el formato JSON en sus respuestas
 
-## Estructura de directorios
-La estructura de directorios sigue la arquitectura ddd hexagonal incluyendo los paquetes:
-- application
-- domain
-- infrastructure 
+The choice of Java for development is justified for
+- its maturity, stability, widespread adoption, and large community of developers. 
+- Additionally, Java has excellent support for building RESTful APIs with Spring Boot, allowing for the creation of robust and scalable applications. 
+- There are numerous tools, libraries, and resources available for Java, which contributes to its popularity and utility in development.
 
+The API design is stateless because avoiding state dependencies enhances scalability and performance allowing servers to be easily replicated and load balanced.
+
+Endpoints will be exposed using the HTTP protocol for the following reasons:
+- HTTP is a widely adopted standard that promotes interoperability.
+- It includes predefined methods like GET, POST, PUT, DELETE, which clearly differentiate CRUD operations.
+
+For handling data, the JSON format will be used in requests and responses because:
+- JSON is a widely adopted, supported, and compatible standard.
+- It is easy to read and manage.
+- JSON is efficient for serialization and deserialization.
+- JSON is flexible and can represent complex data structures.
+- There are many libraries that simplify working with JSON structures.
+- The photo album and photo APIs we are going to consume use JSON in their responses.
+
+## Directory structure
+Directory structure follows a Maven standard directory layout including src/main/ java and resources for source code and src/test/ java and resources for Testing.
+
+Package name follow Java convention starting by the company.
+
+The directory structure is defined by domain (album, photo or common) and layer (application, domain or infrastructure) and aligns with the DDD Hexagonal Architecture pattern.
+- application: Contains the application ports
+- domain: Holds the business logic and models.
+- infrastructure: Implements the interfaces defined by the application layer ports through the adapters to interact with external systems, such as database and API rest.
+ 
 ## Application Layer
-Disponemos de un adaptador AlbumRestInputAdapter que expone los 3 endpoints.
+The input ports are defined as follows:
+- [EnhanceAlbumsInputPort.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Falbum%2Fapplication%2Fports%2Finput%2FEnhanceAlbumsInputPort.java): This port handles the client's request to the application to enhance Albums with Photos and store the result.
+- [GetExternalAlbumsInputPort.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Falbum%2Fapplication%2Fports%2Finput%2FGetExternalAlbumsInputPort.java): This port handles the client's request to the application to retrieve Albums from an external service, specifically a RESTful API in our case.
+- [GetInternalAlbumsInputPort.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Falbum%2Fapplication%2Fports%2Finput%2FGetInternalAlbumsInputPort.java): This port handles the client's request to the application to retrieve Albums from an internal service, specifically a Database in our case.
+- [GetPhotosInputPort.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Fphoto%2Fapplication%2Fports%2Finput%2FGetPhotosInputPort.java): This port handles the client's request to the application to retrieve Photos, again from a RESTful API.
 
-### Endpoints
-Los endpoints seran definidos por un metodo HTTP y una ruta. 
-
-El primer nivel de la ruta es un prefio /api porque:
-- identificamos que pertenecen a una API
-- convencion ampliamente adoptada
-- facilita la agrupacion de los endpoints para configuraciones comunes como las politicas de seguridad
-
-El segundo nivel de la ruta es /v1 porque:
-- facilita el versionado
-- identifica claramente la version para relacionar la documentacion
-
-Para el primer endpoint usaremos el método HTTP POST y la ruta /api/v1/albums porque: 
-- el metodo POST denota que vamos a crear un recurso en nuestro sistema al insertarlo en base de datos
-- se mantiene la idempotencia ya que si los datos identificativos de albums y fotos son identicos no se crearan nuevos recursos
-- se crean recursos de tipo album
-
-Para segundo endpoint y tercer endpoint usaremos el método HTTP GET y la ruta /api/v1/:source/albums porque:
-- el metodo GET denota que no vamos a crear ningun recurso en nuestro sistema y que se devuelve informacion
-- /:source es un parametro que indica la fuente de datos de la que provienen los recursos
-- /albums informa de que se devuelve un listado de objetos album
-- Se podrian crear 2 endpoints GET /api/v1/internal/albums y GET /api/v1/external/albums para diferenciar la fuente de datos. Sin embargo, de esta forma se facilita extender la funcionalidad inicial.
+And the output ports are defined as:
+- [GetAlbumsPersistenceOutputPort.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Falbum%2Fapplication%2Fports%2Foutput%2FGetAlbumsPersistenceOutputPort.java): Used by the application to fetch Albums from the database.
+- [GetAlbumsRestOutputPort.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Falbum%2Fapplication%2Fports%2Foutput%2FGetAlbumsRestOutputPort.java): Used by the application to fetch Albums from a RESTful API.
+- [SaveAlbumPersistenceOutputPort.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Falbum%2Fapplication%2Fports%2Foutput%2FSaveAlbumPersistenceOutputPort.java): Used by the application to save Albums to the database.
+- [PhotoRestOutputPort.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Fphoto%2Fapplication%2Fports%2Foutput%2FPhotoRestOutputPort.java): Used by the application to fetch Photos from a RESTful API.
 
 ## Domain Layer
-Definimos los objetos Album y Photo. Ambos sobrescriben los metodos equals y hashcode para comparar objetos por el identificador.
+Domain models are defined as:
+- [Album.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Falbum%2Fdomain%2Fmodel%2FAlbum.java): An Album model based on the response from the Albums API.
+- [Photo.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Fphoto%2Fdomain%2Fmodel%2FPhoto.java): A Photo model based on the response from the Photos API.
+- The Album and Photo objects are defined, with both overriding the equals() and hashCode() methods to compare objects by their identifier.
 
-El servicio AlbumService contiene la logica de negocio para obtener Album y Photo de las APIs y de base de datos; enriquecer cada Album añadiendo cada Photo al album correspondiente y persistir Album y Photo.
+Services implements input Ports definition. They contain the business logic:
+- [AlbumService.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Falbum%2Fdomain%2Fservice%2FAlbumService.java): Implementation of business logic related to Albums, such as enhancing Albums with Photos and transforming data structures.
+- [PhotoService.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Fphoto%2Fdomain%2Fservice%2FPhotoService.java): Establishment of a layer between application ports and infrastructure adapters to interface with the Photos API.
+- The chosen data structure to manipulate Album objects is a Map<Long, Album> using the Album identifier as the key and the Album object itself as the value. This allows associating photos with the correct album later on.
+- The chosen data structure to manipulate Photo objects is a Set<Photo> to prevent duplicates that could occur in a List.
 
-La estructura de datos elegida para manipular los objetos de tipo Album es un par clave-valor Map<Long, Album> usando el identificador del Album como clave y el Album como Objeto. De esta forma podremos asociar las photos al album posteriormente. 
+## Infrastructure Layer
+The Output Adapters implement the definition of output Ports. 
 
-La estructura de datos elegida para manipular los objetos de tipo Photo es un conjunto Set<Photo> para evitar duplicados que podrian generarse en un List.
+Persistence operations involve:
+- [AlbumPersistenceOutputAdapter.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Falbum%2Finfrastructure%2Falbum%2Fadapters%2Fpersistence%2Foutput%2FAlbumPersistenceOutputAdapter.java): Retrieving and saving albums from the database. 
+- [AlbumEntity.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Falbum%2Finfrastructure%2Falbum%2Fadapters%2Fpersistence%2Foutput%2FAlbumEntity.java): Representing Album in the database.
+- [AlbumRepository.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Falbum%2Finfrastructure%2Falbum%2Fadapters%2Fpersistence%2Foutput%2FAlbumRepository.java): Album JPA repository to access the database.
+- [AlbumMapper.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Falbum%2Finfrastructure%2Falbum%2Fadapters%2Fpersistence%2Foutput%2FAlbumMapper.java): Mapper from Album domain to AlbumEntity database representation.
+- [PhotoEntity.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Fphoto%2Finfrastructure%2Fadapters%2Foutput%2Fpersistence%2FPhotoEntity.java): Representing Photo in the database.
+- This project uses Hibernate for the persistence layer.
+- AlbumEntity contains a @OneToMany relationship towards PhotoEntity because each PhotoEntity contains the identifier of the AlbumEntity to which it belongs.
+- The H2 database is defined in the application.properties configuration file
 
-## Infraestructure Layer
+API rest is implemented by:
+- [AlbumRestOutputAdapter.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Falbum%2Finfrastructure%2Falbum%2Fadapters%2Frest%2Foutput%2FAlbumRestOutputAdapter.java): Fetching Albums from the API Rest.
+- [AlbumRestOutputRepositoryImpl.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Falbum%2Finfrastructure%2Falbum%2Fadapters%2Frest%2Foutput%2FAlbumRestOutputRepositoryImpl.java): Implementing an API REST repository to access the Album API using RestTemplate.
+- [PhotoRestOutputAdapter.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Fphoto%2Finfrastructure%2Fadapters%2Foutput%2Frest%2FPhotoRestOutputAdapter.java): Accessing Photos from the API Rest.
+- [PhotoRestOutputRepositoryImpl.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Fphoto%2Finfrastructure%2Fadapters%2Foutput%2Frest%2FPhotoRestOutputRepositoryImpl.java)[PhotoRestOutputRepository.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Fphoto%2Finfrastructure%2Fadapters%2Foutput%2Frest%2FPhotoRestOutputRepository.java): API REST repository Implementation to access the Photo API using RestTemplate.   
 
-### APIs
-Las APIs externas de Album y Photo se consumen usando RestTemplate y mapeando el resultado en Map<Long, Album> y Set<Photo> respectivamente.
+## Endpoints
+Endpoints will be defined by an HTTP method and a route.
 
-Al consumir la API photos se devuelve Set para evitar duplicados que podrian generarse en un List.
+The first segment of the route is a prefix /api because:
+- It identifies that the endpoints belong to an API.
+- It is a convention widely adopted.
+- It facilitates grouping of endpoints for common configurations like security policies.
 
- 
+The second segment of the route is /v1 because:
+- It facilitates versioning.
+- It clearly identifies the version for linking documentation.
 
-### Data Layer
-Se usa hibernate para la capa de persistencia //TODO JG justificar
+For the first endpoint, we will use the HTTP POST method and the route /api/v1/albums because:
+- The POST method denotes that we are creating a resource in our system by inserting it into the database.
+- Idempotence is maintained since if the identifiers for albums and photos are identical, no new resources will be created.
+- Resources of type album are created.
 
-AlbumEntity y PhotoEntity son entidades. AlbumEntity contiene una relacion @OneToMany hacia PhotoEntity ya que cada PhotoEntity contiene el identificador del AlbumEntity al que pertenece.
+For the second endpoint, we will use the HTTP GET method and the route /api/v1/external/albums because:
+- The GET method denotes that we are not creating any resource in our system and that information is returned.
+- /external is a parameter indicating that the source of the albums is external.
+- /albums indicates that a list of album objects is returned.
 
-La base de datos H2 se define en el fichero de configuración application.properties.
+And for the third endpoint, we will use the HTTP GET method and the route /api/v1/internal/albums because:
+- The GET method denotes that we are not creating any resource in our system and that information is returned.
+- /internal is a parameter indicating that the source of the albums is internal.
+- /albums indicates that a list of album objects is returned 
 
-### Manage exception
-Se usa AdviceExceptionHandler para controlar las excepciones globales 
+## Exception management
+Centralized exception handling is hadled by: [AdviceExceptionHandler.java](src%2Fmain%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Fcommon%2Finfrastructure%2Fexception%2FAdviceExceptionHandler.java)
+
+@ControllerAdvice is used because:
+- allows you to handle exceptions across multiple controllers in a single place. 
+- defining a global exception handler, you can ensure that all exceptions result in consistent error responses
 
 # Patterns
-DDD: se usa en conjunto con la arquitectura hexagonal para poner el acento en el dominio del negocio y en su modelo como herramienta de comunicación entre negocio y tecnología
-// TODO ejemplo
-Patron Builder: se usa el patron Builder para la creacion de objetos Album y Photo. // TODO justificar
-// TODO ejemplo
-Patrón AOP (Aspect Oriented Programming) para el control de excepciones.
+- DDD Hexagonal: emphasize the business domain and its model as a communication tool between business and technology.
+- Builder Pattern: The Builder pattern is used for the creation of Album and Photo objects.
+- AOP (Aspect Oriented Programming) Pattern: This pattern is used for exception handling.
 
 # Tests
-Domain layer is tested in AlbumServiceTest where unit tests are performed.
+Domain layer is tested in AlbumServiceTest[AlbumServiceTest.java](src%2Ftest%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Fdomain%2Fservice%2FAlbumServiceTest.java) where unit tests are performed.
 
-Infrastructure layer is tested in AlbumPersistenceOutputAdapterTest where integration tests are performed.
+Infrastructure layer is tested in AlbumPersistenceOutputAdapterTest[AlbumRepositoryTest.java](src%2Ftest%2Fjava%2Fcom%2Fbcnc%2Fjava%2Fdeveloper%2Ftest%2Fjgregoriotest%2Finfrastructure%2Fadapters%2Falbum%2Fpersistence%2Foutput%2FAlbumRepositoryTest.java) where integration tests are performed.
 
 ## Test coverage
 Test coverage results available: [https://ibb.co/KVr1hx6](https://ibb.co/KVr1hx6)
 
-curl -XPOST -H "Content-type: application/json" 'http://localhost:8080/api/v1/albums'
-
-curl -XGET -H "Content-type: application/json" 'http://localhost:8080/api/v1/external/albums'
-
-curl -XGET -H "Content-type: application/json" 'http://localhost:8080/api/v1/internal/albums'
-
-Internal errorjgregorio@jgregorio-Aspire-5742:~/projects/jgregorio-test$
-
-// TODO El consumo de las APIs externas Albums y Photos deberia hacerse de manera asincrona en vez de secuencial
-// TODO Se deberia paginar las respuestas para evitar tiempos de respuesta excesivos
-// TODO Continuous Integration and Deployment (CI/CD):
-// TODO Logging
-// TODO Uso de las herramientas que proporciona Github o similares para la gestión del código (utilizar nomenclatura estándar de commits, ramas, etc):
-// TODO Uso de controllerAdvice y gestión de excepciones:
-// TODO Uso de jacoco u otra herramienta para monitorizar la cobertura de código de test:
-// TODO JG log error
+High test coverage is not a consideration for this test project.
