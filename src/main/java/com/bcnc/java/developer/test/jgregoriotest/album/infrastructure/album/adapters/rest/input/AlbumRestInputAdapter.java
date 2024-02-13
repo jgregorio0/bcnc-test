@@ -3,7 +3,6 @@ package com.bcnc.java.developer.test.jgregoriotest.album.infrastructure.album.ad
 import com.bcnc.java.developer.test.jgregoriotest.album.application.ports.input.EnhanceAlbumsInputPort;
 import com.bcnc.java.developer.test.jgregoriotest.album.application.ports.input.GetExternalAlbumsInputPort;
 import com.bcnc.java.developer.test.jgregoriotest.album.application.ports.input.GetInternalAlbumsInputPort;
-import com.bcnc.java.developer.test.jgregoriotest.album.application.ports.input.SaveAlbumsInputPort;
 import com.bcnc.java.developer.test.jgregoriotest.album.domain.model.Album;
 import com.bcnc.java.developer.test.jgregoriotest.photo.application.ports.input.GetPhotosInputPort;
 import com.bcnc.java.developer.test.jgregoriotest.photo.domain.model.Photo;
@@ -24,23 +23,22 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class AlbumRestInputAdapter {
 
-    private final EnhanceAlbumsInputPort enrichAlbumsUserCase;
-    private final SaveAlbumsInputPort createAlbumUserCase;
-    private final GetExternalAlbumsInputPort getExternalAlbumsUserCase;
-    private final GetInternalAlbumsInputPort getInternalAlbumsUserCase;
+    private final EnhanceAlbumsInputPort enhanceAlbumsInputPort;
+    private final GetExternalAlbumsInputPort getExternalAlbumsInputPort;
+    private final GetInternalAlbumsInputPort getInternalAlbumsInputPort;
     private final GetPhotosInputPort getPhotosUserCase;
 
     @PostMapping("/albums")
     public ResponseEntity<Void> createAlbums() {
         // get albums from API
         // TODO JG async request to Album and Photo
-        Map<Long, Album> albums = getExternalAlbumsUserCase.getExternalAlbums();
+        Map<Long, Album> albums = getExternalAlbumsInputPort.getExternalAlbums();
         // get photos from API
         Set<Photo> photos = getPhotosUserCase.getPhotos();
         // enrichment albums with photos
-        enrichAlbumsUserCase.enhanceAlbums(albums, photos);
+        enhanceAlbumsInputPort.enhanceAlbums(albums, photos);
         // save albums
-        createAlbumUserCase.saveAll(albums.values());
+        enhanceAlbumsInputPort.saveAll(albums.values());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -48,18 +46,18 @@ public class AlbumRestInputAdapter {
     public ResponseEntity<Collection<Album>> getExternalAlbums() {
         /// get albums from API
         // TODO JG async request to Album and Photo
-        Map<Long, Album> albums = getExternalAlbumsUserCase.getExternalAlbums();
+        Map<Long, Album> albums = getExternalAlbumsInputPort.getExternalAlbums();
         // get photos from API
         Set<Photo> photos = getPhotosUserCase.getPhotos();
         // enrichment albums with photos
-        enrichAlbumsUserCase.enhanceAlbums(albums, photos);
+        enhanceAlbumsInputPort.enhanceAlbums(albums, photos);
         return ResponseEntity.ok(albums.values());
     }
 
     @GetMapping("/internal/albums")
     public ResponseEntity<Collection<Album>> getInternalAlbums() {
         /// get albums from DB
-        Map<Long, Album> albums = getInternalAlbumsUserCase.getInternalAlbums();
+        Map<Long, Album> albums = getInternalAlbumsInputPort.getInternalAlbums();
         return ResponseEntity.ok(albums.values());// TODO JG use pagination
     }
 }

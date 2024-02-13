@@ -3,7 +3,6 @@ package com.bcnc.java.developer.test.jgregoriotest.album.domain.service;
 import com.bcnc.java.developer.test.jgregoriotest.album.application.ports.input.EnhanceAlbumsInputPort;
 import com.bcnc.java.developer.test.jgregoriotest.album.application.ports.input.GetExternalAlbumsInputPort;
 import com.bcnc.java.developer.test.jgregoriotest.album.application.ports.input.GetInternalAlbumsInputPort;
-import com.bcnc.java.developer.test.jgregoriotest.album.application.ports.input.SaveAlbumsInputPort;
 import com.bcnc.java.developer.test.jgregoriotest.album.application.ports.output.GetAlbumsPersistenceOutputPort;
 import com.bcnc.java.developer.test.jgregoriotest.album.application.ports.output.GetAlbumsRestOutputPort;
 import com.bcnc.java.developer.test.jgregoriotest.album.application.ports.output.SaveAlbumPersistenceOutputPort;
@@ -17,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-public class AlbumService implements EnhanceAlbumsInputPort, SaveAlbumsInputPort, GetExternalAlbumsInputPort, GetInternalAlbumsInputPort {
+public class AlbumService implements EnhanceAlbumsInputPort, GetExternalAlbumsInputPort, GetInternalAlbumsInputPort {
 
     private final SaveAlbumPersistenceOutputPort saveAlbumPersistenceOutputPort;
     private final GetAlbumsPersistenceOutputPort getAlbumsPersistenceOutputPort;

@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AlbumEntity {
+public class AlbumEntity {// TODO JG Graph needed for photos?
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
