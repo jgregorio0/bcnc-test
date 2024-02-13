@@ -71,26 +71,6 @@ Key aspects of the implementation will not be considered for this project:
 - Logging for Debugging and Troubleshooting.
 
 ## Overview
-El uso del lenguaje Java para el desarrollo, ademas de por razones obvias relacionadas con el puesto, esta justificado por:
-- ser un lenguaje maduro y estable, ampliamenta adoptado y una gran comunidad de desarrolladores
-- tiene buen soporte para APIs REST con Spring Boot, permitiendo crear aplicaciones robustas y escalables
-- dispone de muchas herramientas, librerías y recursos disponibles
-
-Esta API es stateless porque:
-- al evitar dependencias de estado, mejora la escalabilidad y el rendimiento
-
-Los endpoints seran expuestos mediante protocolos HTTP porque:
-- HTTP es un estandar ampliamente adoptado que favorece la interoperabilidad 
-- incluye metodos predefinidos GET, POST, PUT, DELETE que diferencian claramente las operaciones CRUD (Create, Read, Update, Delete).
-
-Para el manejo de datos sera usado el formato JSON en las peticiones y respuestas porque: 
-- es un estandar ampliamente adoptado, soportado y compatible con distintas tecnologías
-- fácil de leer y manejar
-- eficiente en la serialización y deserialiacion.
-- es flexible y puede representar estructuras de datos complejas
-- existen multiples librerias que facilitan el manejo de estructuras en JSON
-- las APIs de albums y photos que vamos a consumir usan el formato JSON en sus respuestas
-
 The choice of Java for development is justified for
 - its maturity, stability, widespread adoption, and large community of developers. 
 - Additionally, Java has excellent support for building RESTful APIs with Spring Boot, allowing for the creation of robust and scalable applications. 
